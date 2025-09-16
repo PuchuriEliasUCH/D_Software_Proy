@@ -1,4 +1,4 @@
-package com.s_reservas.sreservas.models;
+package com.s_reservas.sreservas.models.entitys;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;

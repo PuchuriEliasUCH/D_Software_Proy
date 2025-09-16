@@ -1,6 +1,5 @@
-package com.s_reservas.sreservas.models;
+package com.s_reservas.sreservas.models.entitys;
 import java.time.LocalDateTime;
-import java.util.StringJoiner;
 
 public class Mesa {
     private int numMesa;

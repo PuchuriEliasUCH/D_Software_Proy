@@ -1,4 +1,4 @@
-package com.s_reservas.sreservas.models;
+package com.s_reservas.sreservas.models.entitys;
 
 public class Estado_Reserva {
     private String nombre;
