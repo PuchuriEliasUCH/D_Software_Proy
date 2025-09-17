@@ -1,0 +1,105 @@
+/* styles.css - adaptado para StoqING (modificaciones solicitadas) */
+:root{
+    --bg:#ffffff;
+    --text:#111111;
+    --muted:#6b6f73;
+    --accent:#1b1b1b;
+    --card:#ffffff;
+    --radius:10px;
+    --green:#28a745;
+    --red:#dc3545;
+    --orange:#ff8c42;
+    --yellow:#ffc107;
+}
+
+*{box-sizing:border-box}
+html,body{height:100%;margin:0;font-family:Inter, "Segoe UI", Arial, sans-serif;background:var(--bg);color:var(--text);-webkit-font-smoothing:antialiased;}
+
+/* header */
+.header { background: #fff; border-bottom: 1px solid #e9e9e9; position: sticky; top: 0; z-index: 100; }
+.header-inner{display:flex;align-items:center;justify-content:space-between;padding:14px 20px;max-width:1100px;margin:0 auto}
+.brand {font-weight:700;font-size:1.15rem}
+.nav-links a {margin-left:18px;color:var(--text);text-decoration:none;font-weight:600}
+.nav-links a.active {text-decoration:underline}
+
+/* MAIN */
+.container-main{max-width:1100px;margin:24px auto;padding:0 16px}
+
+/* HERO */
+.hero {text-align:center;padding:40px 20px;border-radius:12px;box-shadow:0 6px 20px rgba(10,10,10,0.04);background:linear-gradient(180deg,#fff,#fff)}
+
+/* features */
+.features-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:18px}
+.feature{padding:18px;border-radius:12px}
+
+/* RESERVAS LAYOUT - left: form, right: calendar with slots under calendar */
+.reservas-grid{display:grid;grid-template-columns:420px 1fr;gap:24px;align-items:start;margin-bottom:40px}
+@media(max-width:980px){ .reservas-grid{grid-template-columns:1fr} }
+.booking-card{position:relative}
+.calendar-card{position:relative}
+
+/* card */
+.card {background:var(--card);border-radius:12px;padding:18px;box-shadow:0 8px 30px rgba(10,10,10,0.04);}
+
+/* slots under calendar */
+.slots {display:flex;flex-wrap:wrap;gap:8px}
+.slot {
+    padding:8px 10px;border-radius:10px;background:#f7f7f8;border:1px solid #e6e6e8;cursor:pointer;font-weight:600;
+}
+.slot.disabled{opacity:0.45;cursor:not-allowed}
+.slot.selected{background:var(--accent);color:#fff;border-color:var(--accent)}
+
+/* calendar */
+.calendar {display:flex;flex-direction:column;gap:12px}
+.calendar-header{display:flex;justify-content:space-between;align-items:center}
+.month {font-weight:700}
+.calendar-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:8px}
+.day {padding:12px;border-radius:8px;text-align:center;background:#fff;border:1px solid transparent;cursor:pointer}
+.day.other-month{opacity:0.35}
+.day.past{opacity:0.35;cursor:not-allowed}
+.day.selected{background:var(--accent);color:#fff;border-color:var(--accent)}
+.weekdays{display:grid;grid-template-columns:repeat(7,1fr);gap:8px;margin-bottom:6px;color:var(--muted);font-weight:600;font-size:0.85rem;text-align:center}
+
+/* small helpers */
+.small-muted{color:var(--muted);font-size:.9rem}
+.note{background:#fff6e6;border:1px solid #ffe0b2;padding:10px;border-radius:8px;color:#6b4f00}
+
+/* footer */
+.footer { background:#fafafa; border-top:1px solid #eee; padding:24px 20px 8px 20px; margin-top:24px; }
+.footer-wrap{max-width:1100px;margin:0 auto;display:flex;gap:10px;align-items:flex-start;justify-content:space-between;flex-wrap:wrap}
+.footer-left, .footer-center, .footer-right{flex:1;min-width:220px}
+.footer-left a{display:block;color:var(--muted);text-decoration:none;margin-bottom:6px}
+.footer-center p{color:var(--muted);margin:0 0 6px 0}
+.social-placeholder{display:flex;gap:8px;justify-content:flex-end}
+.icon-placeholder{width:40px;height:28px;background:#111;color:#fff;display:inline-flex;align-items:center;justify-content:center;border-radius:6px;font-size:0.85rem;text-decoration:none;color:#fff}
+
+/* footer bottom copyright */
+.footer-bottom{max-width:1100px;margin:10px auto 0 auto;padding-top:8px;text-align:center;color:var(--muted);font-size:0.9rem}
+
+/* modal overlay */
+.modal-overlay{position:fixed;left:0;top:0;width:100%;height:100%;background:rgba(0,0,0,0.45);display:flex;align-items:center;justify-content:center;z-index:1000}
+.modal-card{background:#fff;padding:18px;border-radius:10px;max-width:480px;width:92%;box-shadow:0 10px 40px rgba(0,0,0,0.25)}
+
+/* admin KPIs */
+.kpis{display:flex;gap:12px;margin-top:12px}
+.kpi{flex:1;background:#fff;padding:14px;border-radius:10px;text-align:center}
+.kpi .value{font-size:1.6rem;font-weight:700}
+
+/* mesas map */
+.mesa {width:120px;height:80px;border-radius:8px;display:flex;flex-direction:column;align-items:center;justify-content:center;color:#fff;font-weight:700;cursor:pointer}
+.mesa.small{width:100px;height:60px;font-size:0.9rem}
+
+/* estado colores */
+.estado-libre{background:var(--green)}
+.estado-ocupado{background:var(--red)}
+.estado-reservado{background:var(--orange)}
+.estado-mantenimiento{background:var(--yellow);color:#111}
+
+/* responsive tweaks */
+@media(max-width:600px){
+    .header-inner{padding:12px}
+    .brand{font-size:1rem}
+    .nav-links a{margin-left:10px;font-size:.95rem}
+    .features-grid{grid-template-columns:1fr}
+    .kpis{flex-direction:column}
+}
