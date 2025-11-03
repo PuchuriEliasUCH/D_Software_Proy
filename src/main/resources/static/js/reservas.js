@@ -38,7 +38,14 @@ function getReservas() {
 }
 
 function saveReservas(arr) {
-    localStorage.setItem(LS_KEY, JSON.stringify(arr));
+    // localStorage.setItem(LS_KEY, JSON.stringify(arr));
+    fetch("api/reserva/crear", {
+        method: "POST",
+        body: JSON.stringify(arr),
+        headers:{
+            "Content-Type": "application/json"
+        }
+    }).catch(er => console.log(er))
 }
 
 function getTables() {
@@ -458,16 +465,25 @@ function setupReservasPage() {
             const monto = personas * PRICE_PER_PERSON;
             const codigo = 'R' + Math.random().toString(36).substring(2, 8).toUpperCase();
             const nueva = {
-                id: Date.now(), cod: codigo, nombre, apellido, dni, telefono, correo,
-                personas, fecha: selectedDate, hora: selectedSlot, comentarios: comentarios || null,
-                garantia: monto.toFixed(2), estado: RESERVATION_STATES.PEND_PAGO, aceptaGarantia: true,
-                createdAt: new Date().toISOString(), mesa: mesaAsignada,
-                pagoLimite: new Date(Date.now() + 15 * 60 * 1000).toISOString() // 15m (doc) :contentReference[oaicite:3]{index=3}
+                "estado": { "id": 1 },
+                nombreCliente: nombre,
+                apellidoCliente: apellido,
+                dniCliente: dni,
+                telCliente: telefono,
+                emailContacto: correo,
+                numeroPersonas: personas,
+                fechaReserva: selectedDate,
+                horaReserva: selectedSlot,
+                montoGarantia: monto.toFixed(2),
+                comentarios: comentarios || null,
             };
+
+            const paraLocal = {...nueva, }
+
 
             const reservas = getReservas();
             reservas.push(nueva);
-            saveReservas(reservas);
+            saveReservas(nueva);
 
             resumenContenido.innerHTML =
                 `<div class="note" style="margin-bottom:12px"><strong>Importante:</strong> Tienes <strong>15 minutos</strong> para completar el pago.</div>

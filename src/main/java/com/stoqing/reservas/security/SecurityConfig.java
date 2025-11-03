@@ -16,11 +16,11 @@ public class SecurityConfig {
         http.csrf(csrf -> csrf.ignoringRequestMatchers("/api/**"))
             .authorizeHttpRequests(auth -> auth
             .requestMatchers("/css/**", "/js/**", "/images/**").permitAll()
-            .requestMatchers("/", "/reserva").permitAll()
+            .requestMatchers("/", "/reserva", "/api/reserva/crear").permitAll()
             .anyRequest().authenticated()
         )
-            .formLogin(Customizer.withDefaults())
-            .httpBasic(Customizer.withDefaults());
+            .formLogin(Customizer.withDefaults());
+//            .httpBasic(basic -> basic.);
 
         return http.build();
     }

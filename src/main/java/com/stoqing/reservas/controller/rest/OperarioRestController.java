@@ -15,7 +15,7 @@ public class OperarioRestController {
     private OperarioService operarioService;
 
     @GetMapping("/listar")
-    public ResponseEntity<?> lsitar(){
+    public ResponseEntity<?> listar(){
         return ResponseEntity.status(HttpStatus.OK).body(operarioService.findAll());
     }
 
