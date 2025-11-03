@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="es">
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1"/>
+    <title>Reservas — DASSO by StoqING</title>
+
+    <!-- Fuentes (idénticas a admin-dashboard / landing) -->
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@200;500&family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet"/>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="css/reservas.css">
+</head>
+<body>
+<!-- Header idéntico al de admin-dashboard -->
+<header th:insert="~{fragments/navbar :: navbar}"></header>
+
+<main class="container-main">
+    <section class="reservas-grid">
+        <div class="card booking-card">
+            <h4>Registrar solicitud de reserva</h4>
+            <form id="reservaForm" autocomplete="on">
+                <div class="mb-2">
+                    <label class="form-label" for="nombre">Nombre *</label>
+                    <input id="nombre" name="nombre" class="form-control" required autocomplete="given-name"/>
+                </div>
+                <div class="mb-2">
+                    <label class="form-label" for="apellido">Apellido *</label>
+                    <input id="apellido" name="apellido" class="form-control" required autocomplete="family-name"/>
+                </div>
+                <div class="mb-2">
+                    <label class="form-label" for="dni">DNI *</label>
+                    <input id="dni" name="dni" class="form-control" required placeholder="8 dígitos" inputmode="numeric" maxlength="8" pattern="^\d{8}$" title="Debe tener 8 dígitos"/>
+                    <small class="small-muted">Sólo números (8 dígitos)</small>
+                </div>
+                <div class="mb-2">
+                    <label class="form-label" for="telefono">Teléfono *</label>
+                    <input id="telefono" name="telefono" class="form-control" required placeholder="9 dígitos" inputmode="numeric" maxlength="9" pattern="^\d{9}$" title="Debe tener 9 dígitos" autocomplete="tel"/>
+                    <small class="small-muted">Sólo números (9 dígitos)</small>
+                </div>
+                <div class="mb-2">
+                    <label class="form-label" for="correo">Correo *</label>
+                    <input id="correo" name="correo" type="email" class="form-control" required placeholder="ejemplo@dominio.com" autocomplete="email"/>
+                </div>
+                <div class="mb-2">
+                    <label class="form-label" for="personas">Personas *</label>
+                    <select id="personas" name="personas" class="form-control" required>
+                        <option value="">Selecciona cantidad de personas</option>
+                        <option value="1">1 persona</option>
+                        <option value="2">2 personas</option>
+                        <option value="3">3 personas</option>
+                        <option value="4">4 personas</option>
+                        <option value="5">5 personas</option>
+                        <option value="6">6 personas</option>
+                        <option value="7">7 personas</option>
+                        <option value="8">8 personas</option>
+                    </select>
+                    <small class="small-muted">Selecciona primero la cantidad para ver horarios disponibles</small>
+                </div>
+                <div class="mb-2">
+                    <label class="form-label" for="comentarios">Comentarios (opcional)</label>
+                    <textarea id="comentarios" name="comentarios" class="form-control" rows="3" maxlength="500" placeholder="Alergias, ocasión, pedido especial..."></textarea>
+                </div>
+                <div class="mb-2 form-check">
+                    <input id="aceptaGarantia" name="aceptaGarantia" type="checkbox" class="form-check-input" required />
+                    <label class="form-check-label small-muted" for="aceptaGarantia">Acepto pagar la garantía (S/ 5 por persona; se descuenta del consumo)</label>
+                </div>
+
+                <div style="margin-top:12px">
+                    <button id="submitBtn" type="submit" class="btn btn-dark w-100">Enviar solicitud de reserva</button>
+                </div>
+                <div id="mensaje" style="margin-top:12px" aria-live="polite"></div>
+            </form>
+
+            <!-- Resumen + comprobante -->
+            <div id="resumenReserva" class="resumen card" style="display:none;margin-top:14px">
+                <h5>Resumen de la solicitud</h5>
+                <div id="resumenContenido"></div>
+                <div style="display:flex;gap:8px;margin-top:10px;flex-wrap:wrap">
+                    <button id="imprimirBtn" type="button" class="btn btn-dark">Imprimir / Guardar PDF</button>
+                    <button id="descargarBtn" type="button" class="btn btn-outline-dark">Descargar comprobante (HTML)</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="card calendar-card">
+            <h4>Disponibilidad</h4>
+            <div id="calendarEl" class="calendar"></div>
+            <div id="slotsUnderCalendar" class="slots" style="margin-top:12px"></div>
+        </div>
+    </section>
+</main>
+
+<footer th:insert="~{/fragments/footer :: footer}"></footer>
+
+<script th:src="@{/js/reservas.js}"></script>
+</body>
+</html>

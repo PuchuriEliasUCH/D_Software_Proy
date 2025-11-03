@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="es">
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1"/>
+    <title>DASSO — Inicio</title>
+
+    <!-- Tipografía Plus Jakarta Sans -->
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@200;500&display=swap" rel="stylesheet">
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" th:href="@{/css/landing.css}">
+</head>
+<body>
+<!-- Header -->
+<header th:insert="~{fragments/navbar :: navbar}"></header>
+
+<main>
+    <!-- Hero -->
+    <section class="hero">
+        <div class="hero-overlay">
+            <h1>DASSO</h1>
+            <p class="slogan">Donde la tradición se encuentra con la innovación en cada bocado.</p>
+            <a th:href="@{/reserva}" class="btn btn-refined">Reservar mesa</a>
+        </div>
+    </section>
+
+    <!-- Propuesta -->
+    <section class="section about text-center fade-up">
+        <div class="container-main">
+            <h2>Nuestra propuesta</h2>
+            <p>
+                En DASSO celebramos la riqueza de la despensa peruana con una mirada contemporánea y refinada.
+                Nuestra propuesta honra el origen de cada insumo y transforma lo cotidiano en experiencias memorables,
+                donde la creatividad culinaria se fusiona con la elegancia del entorno.
+                Cada detalle —desde la mesa hasta el último sorbo— está pensado para ofrecer una experiencia sensorial
+                única,
+                en la que la tradición se eleva con sofisticación moderna.
+            </p>
+        </div>
+    </section>
+
+    <!-- Experiencias -->
+    <section class="section menu">
+        <div class="container-main">
+            <h2 class="text-center">Experiencias</h2>
+            <div class="row g-4">
+                <div class="col-md-4 scale-in">
+                    <div class="card menu-card">
+                        <img th:src="@{/images/plato1.png}" alt="Experiencia 1" class="img-fluid"/>
+                        <h5>Ceviche de autor</h5>
+                        <p class="dish-desc">Frescura marina elevada con notas cítricas precisas, acompañado de ajíes
+                            peruanos en su máxima expresión.</p>
+                    </div>
+                </div>
+                <div class="col-md-4 scale-in">
+                    <div class="card menu-card">
+                        <img th:src="@{/images/plato2.png}" alt="Experiencia 2" class="img-fluid"/>
+                        <h5>Lomo saltado clásico</h5>
+                        <p class="dish-desc">Corte premium de res, salteado a fuego intenso con vegetales glaseados y
+                            esencia de pisco.</p>
+                    </div>
+                </div>
+                <div class="col-md-4 scale-in">
+                    <div class="card menu-card">
+                        <img th:src="@{/images/plato3.png}" alt="Experiencia 3" class="img-fluid"/>
+                        <h5>Degustación de postres</h5>
+                        <p class="dish-desc">Una sinfonía dulce que combina texturas delicadas, aromas tropicales y un
+                            final inolvidable.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Ubicación / Contacto -->
+    <section id="contacto" class="section ubicacion bg-light fade-up">
+        <div class="container-main text-center">
+            <h2>Ubícanos</h2>
+            <p>Calle Miguel Dasso 102, San Isidro, Lima, Perú</p>
+            <p>01 242-8515</p>
+            <p><a href="mailto:reservas@dasso.pe">reservas@dasso.pe</a></p>
+            <div style="max-width:600px;margin:auto;">
+                <iframe
+                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d975.2716983016437!2d-77.04171782434447!3d-12.10621058606586!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x9105c84722cf50d9%3A0x3086241eeddbcc6d!2sC.%20Miguel%20Dasso%20102%2C%20San%20Isidro%2015073!5e0!3m2!1ses-419!2spe!4v1759548090047!5m2!1ses-419!2spe"
+                        width="100%" height="350" style="border:0;" allowfullscreen="" loading="lazy"
+                        referrerpolicy="no-referrer-when-downgrade">
+                </iframe>
+            </div>
+        </div>
+    </section>
+</main>
+
+<!-- Footer -->
+<footer th:insert="~{/fragments/footer :: footer}"></footer>
+
+<script th:src="@{/js/landing.js}"></script>
+</body>
+</html>
