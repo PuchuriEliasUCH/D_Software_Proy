@@ -1,5 +1,6 @@
 package com.stoqing.reservas.entities.model;
 
+import com.stoqing.reservas.entities.dto.Audit;
 import com.stoqing.reservas.entities.enums.CapacidadMesa;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
@@ -25,4 +26,7 @@ public class Mesa {
     @NotNull
     @Enumerated(EnumType.STRING)
     public CapacidadMesa capacidad;
+
+    @Embedded
+    private Audit audit = new Audit();
 }

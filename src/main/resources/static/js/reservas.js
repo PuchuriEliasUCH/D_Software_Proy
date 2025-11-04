@@ -142,7 +142,7 @@ function countFreeTablesForSlot(dateIso, slotTime, personas) {
 
 /* -------------------- Comprobante exclusivo (bonito) -------------------- */
 function buildReceiptHTML(r) {
-    return `<!doctype html><html><head><meta charset="utf-8"><title>Comprobante ${r.cod}</title>
+    return `<!doctype html><html><head><meta charset="utf-8"><title>Comprobante ${r.codigo}</title>
   <style>
   @page{size:A4;margin:20mm}*{box-sizing:border-box}
   body{font-family:Inter,system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;color:#111;background:#fff}
@@ -160,18 +160,18 @@ function buildReceiptHTML(r) {
   .print-hint{display:none}@media print{.no-print{display:none}.print-hint{display:block;margin-top:8px;color:#6b6f73;font-size:12px}}
   </style></head><body><div class="wrap">
     <div class="header">
-      <div><div class="brand">StoqING</div><div class="code">Comprobante de reserva — <span>${r.cod}</span></div></div>
+      <div><div class="brand">StoqING</div><div class="code">Comprobante de reserva — <span>${r.codigo}</span></div></div>
       <div class="tag">RESERVA</div>
     </div>
     <div class="section grid">
-      <div class="label">Cliente</div><div class="value">${r.nombre} ${r.apellido}</div>
-      <div class="label">DNI</div><div class="value">${r.dni}</div>
-      <div class="label">Teléfono</div><div class="value">${r.telefono}</div>
-      <div class="label">Correo</div><div class="value">${r.correo}</div>
-      <div class="label">Fecha</div><div class="value">${r.fecha}</div>
-      <div class="label">Hora</div><div class="value">${slotDisplay(r.hora)}</div>
-      <div class="label">Personas</div><div class="value">${r.personas}</div>
-      <div class="label">Mesa</div><div class="value">${r.mesa ? ('Mesa ' + r.mesa) : '-'}</div>
+      <div class="label">Cliente</div><div class="value">${r.nombreCliente} ${r.apellidoCliente}</div>
+      <div class="label">DNI</div><div class="value">${r.dniCliente}</div>
+      <div class="label">Teléfono</div><div class="value">${r.telCliente}</div>
+      <div class="label">Correo</div><div class="value">${r.emailContacto}</div>
+      <div class="label">Fecha</div><div class="value">${r.fechaReserva}</div>
+      <div class="label">Hora</div><div class="value">${slotDisplay(r.horaReserva)}</div>
+      <div class="label">Personas</div><div class="value">${r.numeroPersonas}</div>
+      <div class="label">Mesa</div><div class="value">${r.mesa ? ('Mesa ' + r.mesaAsignada) : '-'}</div>
       <div class="label">Estado</div><div class="value">${statusLabel(r.estado)}</div>
     </div>
     ${r.comentarios ? `<div class="section"><div class="label">Comentarios</div><div>${r.comentarios}</div></div>` : ''}
@@ -209,7 +209,7 @@ function downloadReceiptHTML(r) {
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
-    a.download = `comprobante_${r.cod}.html`;
+    a.download = `comprobante_${r.codigo}.html`;
     a.click();
     URL.revokeObjectURL(url);
 }
@@ -414,31 +414,31 @@ function setupReservasPage() {
     if (form) {
         form.addEventListener('submit', function (e) {
             e.preventDefault();
-            const nombre = document.getElementById('nombre').value.trim();
-            const apellido = document.getElementById('apellido').value.trim();
-            const dni = document.getElementById('dni').value.trim();
-            const telefono = document.getElementById('telefono').value.trim();
-            const correo = document.getElementById('correo').value.trim();
-            const personas = parseInt(document.getElementById('personas').value, 10);
+            const nombreCliente = document.getElementById('nombre').value.trim();
+            const apellidoCliente = document.getElementById('apellido').value.trim();
+            const dniCliente = document.getElementById('dni').value.trim();
+            const telCliente = document.getElementById('telefono').value.trim();
+            const emailContacto = document.getElementById('correo').value.trim();
+            const numeroPersonas = parseInt(document.getElementById('personas').value, 10);
             const comentarios = document.getElementById('comentarios').value.trim();
             const aceptaGarantia = document.getElementById('aceptaGarantia').checked;
 
-            if (!nombre || !apellido || !dni || !telefono || !correo || !personas) {
+            if (!nombreCliente || !apellidoCliente || !dniCliente || !telCliente || !emailContacto || !numeroPersonas) {
                 mensajeEl.textContent = 'Completa todos los campos obligatorios.';
                 mensajeEl.style.color = 'crimson';
                 return;
             }
-            if (!/^\d{8}$/.test(dni)) {
+            if (!/^\d{8}$/.test(dniCliente)) {
                 mensajeEl.textContent = 'DNI inválido (8 dígitos).';
                 mensajeEl.style.color = 'crimson';
                 return;
             }
-            if (!/^\d{9}$/.test(telefono)) {
+            if (!/^\d{9}$/.test(telCliente)) {
                 mensajeEl.textContent = 'Teléfono inválido (9 dígitos).';
                 mensajeEl.style.color = 'crimson';
                 return;
             }
-            if (!/^\S+@\S+\.\S+$/.test(correo)) {
+            if (!/^\S+@\S+\.\S+$/.test(emailContacto)) {
                 mensajeEl.textContent = 'Correo inválido.';
                 mensajeEl.style.color = 'crimson';
                 return;
@@ -454,7 +454,7 @@ function setupReservasPage() {
                 return;
             }
 
-            const mesaAsignada = asignarMesaAutomatica(personas, selectedDate, selectedSlot);
+            const mesaAsignada = asignarMesaAutomatica(numeroPersonas, selectedDate, selectedSlot);
             if (!mesaAsignada) {
                 mensajeEl.textContent = 'No hay mesas disponibles para la cantidad seleccionada en este horario.';
                 mensajeEl.style.color = 'crimson';
@@ -462,23 +462,29 @@ function setupReservasPage() {
                 return;
             }
 
-            const monto = personas * PRICE_PER_PERSON;
+            const monto = numeroPersonas * PRICE_PER_PERSON;
             const codigo = 'R' + Math.random().toString(36).substring(2, 8).toUpperCase();
             const nueva = {
                 "estado": { "id": 1 },
-                nombreCliente: nombre,
-                apellidoCliente: apellido,
-                dniCliente: dni,
-                telCliente: telefono,
-                emailContacto: correo,
-                numeroPersonas: personas,
+                nombreCliente,
+                apellidoCliente,
+                dniCliente,
+                telCliente,
+                emailContacto,
+                numeroPersonas,
                 fechaReserva: selectedDate,
                 horaReserva: selectedSlot,
                 montoGarantia: monto.toFixed(2),
                 comentarios: comentarios || null,
             };
 
-            const paraLocal = {...nueva, }
+            const paraLocal = {...nueva,
+                codigo,
+                garantia: monto.toFixed(2),
+                mesaAsignada
+            }
+
+            console.log(paraLocal);
 
 
             const reservas = getReservas();
@@ -487,25 +493,25 @@ function setupReservasPage() {
 
             resumenContenido.innerHTML =
                 `<div class="note" style="margin-bottom:12px"><strong>Importante:</strong> Tienes <strong>15 minutos</strong> para completar el pago.</div>
-         <div><strong>Código de reserva:</strong> ${nueva.cod}</div>
-         <div><strong>Nombre:</strong> ${nueva.nombre} ${nueva.apellido}</div>
-         <div><strong>Fecha:</strong> ${nueva.fecha}</div>
-         <div><strong>Hora:</strong> ${slotDisplay(nueva.hora)}</div>
-         <div><strong>Personas:</strong> ${nueva.personas}</div>
-         <div style="font-size:1.1rem;color:#28a745;margin:12px 0"><strong>Monto a pagar: S/ ${nueva.garantia}</strong></div>
+         <div><strong>Código de reserva:</strong> ${paraLocal.codigo}</div>
+         <div><strong>Nombre:</strong> ${paraLocal.nombre} ${paraLocal.apellido}</div>
+         <div><strong>Fecha:</strong> ${paraLocal.fechaReserva}</div>
+         <div><strong>Hora:</strong> ${slotDisplay(paraLocal.horaReserva)}</div>
+         <div><strong>Personas:</strong> ${paraLocal.numeroPersonas}</div>
+         <div style="font-size:1.1rem;color:#28a745;margin:12px 0"><strong>Monto a pagar: S/ ${paraLocal.garantia}</strong></div>
          <div style="background:#e7f3ff;padding:12px;border-radius:8px;margin-top:12px">
            <strong>Canales de pago:</strong>
            <ul style="list-style:none;padding-left:0;margin-top:8px">
              <li><strong>WhatsApp Business:</strong> +51 1 242-8515</li>
              <li><strong>Correo:</strong> pagos@stoqing.com</li>
            </ul>
-           <div style="margin-top:8px;font-size:0.9rem">Envía tu comprobante de pago con el código <strong>${nueva.cod}</strong>.</div>
+           <div style="margin-top:8px;font-size:0.9rem">Envía tu comprobante de pago con el código <strong>${paraLocal.codigo}</strong>.</div>
          </div>
          <div style="background:#fff;padding:10px;border-radius:6px;margin-top:12px;border:1px solid #dee2e6">
            <strong>Mesa asignada:</strong> Mesa ${mesaAsignada}<br><strong>El monto pagado se descontará de tu consumo.</strong>
          </div>`;
             resumenDiv.style.display = 'block';
-            mensajeEl.textContent = `Solicitud registrada — Código ${codigo} — Total: S/ ${nueva.garantia}`;
+            mensajeEl.textContent = `Solicitud registrada — Código ${codigo} — Total: S/ ${paraLocal.garantia}`;
             mensajeEl.style.color = '#0a7a07';
 
             if (imprimirBtn) {

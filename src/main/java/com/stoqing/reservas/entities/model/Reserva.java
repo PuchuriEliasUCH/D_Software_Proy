@@ -1,5 +1,6 @@
 package com.stoqing.reservas.entities.model;
 
+import com.stoqing.reservas.entities.dto.Audit;
 import com.stoqing.reservas.entities.enums.MetodoPago;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
@@ -69,5 +70,8 @@ public class Reserva {
 
     @Column(name = "comentarios", columnDefinition = "TEXT")
     private String comentarios;
+
+    @Embedded
+    private Audit audit = new Audit();
 
 }

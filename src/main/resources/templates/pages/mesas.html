@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="es">
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1"/>
+    <title>Mesas y Reservas — DASSO by StoqING</title>
+
+    <!-- Fuentes iguales que en el resto del proyecto -->
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@200;500&family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" th:href="@{/css/mesas-reservas.css}">
+</head>
+<body>
+<!-- HEADER UNIFICADO -->
+<header class="header" th:insert="~{/fragments/navbar :: navbar}"></header>
+
+<main class="container-main">
+    <div class="card">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:18px;">
+            <h4>Gestión de Mesas y Reservas</h4>
+            <div style="display:flex;gap:8px;">
+                <button id="dashboardBtn" class="btn btn-secondary" type="button">Volver al Dashboard</button>
+                <button id="logoutBtn" class="btn btn-outline-danger" type="button">Cerrar sesión</button>
+            </div>
+        </div>
+
+        <div style="display:flex;gap:12px;align-items:center;margin-bottom:18px;flex-wrap:wrap">
+            <label class="small-muted" for="mesasDate" style="min-width:90px">Fecha:</label>
+            <input id="mesasDate" type="date" class="form-control" style="max-width:180px"/>
+            <span class="small-muted">Vista: <strong>Actualmente</strong> (actualiza cada 5 s)</span>
+        </div>
+
+        <div style="margin-bottom:18px">
+            <h5>Mapa de mesas</h5>
+            <div class="legend" style="display:flex;gap:12px;margin:8px 0;font-size:0.9rem;">
+                <div><span class="legend-box estado-libre"></span> Libre</div>
+                <div><span class="legend-box estado-solicitada"></span> Solicitada</div>
+                <div><span class="legend-box estado-reservada"></span> Reservada</div>
+                <div><span class="legend-box estado-ocupada"></span> Ocupada</div>
+                <div><span class="legend-box estado-mantenimiento"></span> Mantenimiento</div>
+            </div>
+            <div id="mesasMap" style="margin-top:12px"></div>
+            <div class="small-muted" style="margin-top:8px">Haz clic en una mesa (si NO está vinculada a una reserva) para abrir <em>Opciones de mesa</em>.</div>
+        </div>
+
+        <div style="margin-top:24px">
+            <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">
+                <h5 style="margin:0">Lista de reservas del día</h5>
+                <div style="margin-left:auto;display:flex;align-items:center;gap:8px">
+                    <label class="small-muted" for="reservasEstadoFilter">Filtrar por estado:</label>
+                    <select id="reservasEstadoFilter" class="form-control" style="max-width:220px">
+                        <option value="todas">Todas</option>
+                        <option value="pendiente_pago">Pendiente de pago</option>
+                        <option value="programada">Programada</option>
+                        <option value="en_curso">En curso</option>
+                        <option value="finalizada">Finalizada</option>
+                        <option value="cancelada">Cancelada</option>
+                    </select>
+                </div>
+            </div>
+            <div id="reservasDelDia" style="margin-top:12px"></div>
+        </div>
+    </div>
+</main>
+
+<!-- MODAL OPCIONES DE MESA -->
+<div id="tableOptionsModal" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,.35); align-items:center; justify-content:center; z-index:9999;">
+    <div class="card" style="width:520px; max-width:calc(100% - 24px)">
+        <h5>Opciones de mesa</h5>
+        <div id="tableOptInfo" class="small-muted" style="margin-bottom:8px"></div>
+        <div class="mb-2">
+            <label class="form-label" for="tableStateSelect">Estado manual</label>
+            <select id="tableStateSelect" class="form-control">
+                <option value="libre">Libre (por defecto)</option>
+                <option value="ocupada">Ocupada (manual)</option>
+                <option value="mantenimiento">En mantenimiento</option>
+            </select>
+        </div>
+        <div id="maintUntilWrap" class="mb-2" style="display:none">
+            <label class="form-label" for="maintUntil">Mantenimiento hasta (opcional)</label>
+            <input id="maintUntil" type="datetime-local" class="form-control"/>
+            <small class="small-muted">Al llegar la hora, la mesa vuelve a “Libre” automáticamente.</small>
+        </div>
+        <div style="display:flex;gap:8px;justify-content:flex-end;margin-top:10px">
+            <button id="tableOptCancel" class="btn btn-outline-secondary" type="button">Cancelar</button>
+            <button id="tableOptSave" class="btn btn-dark" type="button">Guardar</button>
+        </div>
+    </div>
+</div>
+
+<!-- MODAL EDITAR RESERVA -->
+<div id="editModal" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,.35); align-items:center; justify-content:center; z-index:9999;">
+    <div class="card" style="width:560px; max-width:calc(100% - 24px)">
+        <h5>Reprogramar reserva</h5>
+        <div id="editInfo" class="small-muted"></div>
+        <div class="mb-2" id="editSlots" style="display:flex;flex-wrap:wrap;gap:8px;margin-top:10px"></div>
+        <div id="editMsg" class="small-muted" style="color:#dc3545"></div>
+        <div style="display:flex;gap:8px;justify-content:flex-end;margin-top:10px">
+            <button id="editCancel" class="btn btn-outline-secondary" type="button">Cancelar</button>
+            <button id="editSave" class="btn btn-dark" type="button">Guardar</button>
+        </div>
+    </div>
+</div>
+
+<!--<script src="js/mesas-reservas.js"></script>-->
+</body>
+</html>

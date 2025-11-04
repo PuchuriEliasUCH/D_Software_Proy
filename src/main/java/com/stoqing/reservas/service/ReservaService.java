@@ -6,6 +6,7 @@ import com.stoqing.reservas.repository.ReservaRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Service
@@ -16,6 +17,10 @@ public class ReservaService {
 
     public List<Reserva> findAll(){
         return reservaRepo.findAll();
+    }
+
+    public List<Reserva> findByFecha(LocalDate fecha){
+        return reservaRepo.findByFechaReserva(fecha);
     }
 
     public void save(Reserva reserva){

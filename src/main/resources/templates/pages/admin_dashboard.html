@@ -25,7 +25,9 @@
 
             <div style="margin-left:auto; display:flex; gap:8px;">
                 <button id="mesasBtn" class="btn btn-primary" type="button">Ir a Mesas</button>
-                <button id="logoutBtn" class="btn btn-outline-danger" type="button">Cerrar sesión</button>
+                <form th:action="@{/logout}" method="post">
+                    <button id="logoutBtn" class="btn btn-outline-danger" type="submit">Cerrar sesión</button>
+                </form>
             </div>
         </div>
 
@@ -94,6 +96,6 @@
     </div>
 </div>
 
-<!--<script th:src="@{/js/admin-dashboard.js}"></script>-->
+<script defer th:src="@{/js/dashboard.js}"></script>
 </body>
 </html>

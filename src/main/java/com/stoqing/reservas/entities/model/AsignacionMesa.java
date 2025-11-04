@@ -1,5 +1,6 @@
 package com.stoqing.reservas.entities.model;
 
+import com.stoqing.reservas.entities.dto.Audit;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -29,7 +30,7 @@ public class AsignacionMesa {
     private Mesa mesa;
 
     @ManyToOne
-    @JoinColumn(name = "id_reserva", nullable = true)
+    @JoinColumn(name = "id_reserva")
     private Reserva reserva;
 
     @Column(name = "fecha_asignacion", nullable = false)
@@ -40,4 +41,7 @@ public class AsignacionMesa {
 
     @Column(name = "hora_fin", nullable = true)
     private LocalTime horaFin;
+
+    @Embedded
+    private Audit audit = new Audit();
 }

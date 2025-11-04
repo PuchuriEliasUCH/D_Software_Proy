@@ -7,6 +7,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
+
 
 @RestController
 @RequestMapping("/api/reserva")
@@ -24,6 +26,11 @@ public class ReservaRestController {
     public ResponseEntity<?> crear(@RequestBody Reserva reserva){
         reservaService.save(reserva);
         return ResponseEntity.status(HttpStatus.CREATED).body(reserva);
+    }
+
+    @GetMapping("listar_fecha")
+    public ResponseEntity<?> listarFecha(@RequestParam LocalDate fecha){
+        return ResponseEntity.status(HttpStatus.OK).body(reservaService.findByFecha(fecha));
     }
 
 }

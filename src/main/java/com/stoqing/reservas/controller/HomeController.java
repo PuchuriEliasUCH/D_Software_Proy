@@ -16,8 +16,13 @@ public class HomeController {
         return "pages/reserva";
     }
 
-    @GetMapping("/dashboard")
-    public String dashboard(){
-        return "pages/admin_dashboard";
+    @GetMapping("/login")
+    public String login(){
+        return "pages/login";
+    }
+
+    @GetMapping("/gestion_mesas")
+    public String mesas(){
+        return "pages/mesas";
     }
 }
