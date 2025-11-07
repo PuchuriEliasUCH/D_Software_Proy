@@ -1,5 +1,5 @@
 /* reservas.js — GMT-5 Lima; deshabilitar horas pasadas; comprobante estilizado */
-const PRICE_PER_PERSON = 5.00;
+const PRICE_PER_PERSON = 10.00;
 const LS_KEY = 'stoqing_reservas_v2';
 const LS_TABLES = 'stoqing_tables_v2';
 const LIMA_TZ = 'America/Lima';

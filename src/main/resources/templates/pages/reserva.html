@@ -13,7 +13,7 @@
 </head>
 <body>
 <!-- Header idéntico al de admin-dashboard -->
-<header th:insert="~{fragments/navbar :: navbar}"></header>
+<header th:insert="~{fragments/general/navbar :: navbar}"></header>
 
 <main class="container-main">
     <section class="reservas-grid">
@@ -91,7 +91,7 @@
     </section>
 </main>
 
-<footer th:insert="~{/fragments/footer :: footer}"></footer>
+<footer th:insert="~{/fragments/general/footer :: footer}"></footer>
 
 <script th:src="@{/js/reservas.js}"></script>
 </body>

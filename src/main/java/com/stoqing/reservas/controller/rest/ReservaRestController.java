@@ -17,6 +17,11 @@ public class ReservaRestController {
 
     private ReservaService reservaService;
 
+    @GetMapping("/listar_todo")
+    public ResponseEntity<?> listarTodo(){
+        return ResponseEntity.status(HttpStatus.OK).body(reservaService.findByEstado_Id(1));
+    }
+
     @GetMapping("/listar")
     public ResponseEntity<?> listar(){
         return ResponseEntity.status(HttpStatus.OK).body(reservaService.findAll());
@@ -28,9 +33,26 @@ public class ReservaRestController {
         return ResponseEntity.status(HttpStatus.CREATED).body(reserva);
     }
 
-    @GetMapping("listar_fecha")
+    @GetMapping("/listar_fecha")
     public ResponseEntity<?> listarFecha(@RequestParam LocalDate fecha){
-        return ResponseEntity.status(HttpStatus.OK).body(reservaService.findByFecha(fecha));
+        return ResponseEntity.status(HttpStatus.OK).body(reservaService.listarCardSolicitud(fecha));
     }
+
+    @PatchMapping("/aceptar_soli/{idReserva}")
+    public ResponseEntity<?> aceptarSoli(@PathVariable int idReserva){
+
+        reservaService.actualizarEstadoReserva(2, idReserva);
+
+        return ResponseEntity.status(HttpStatus.OK).body("Reserva aceptada exitosamente");
+    }
+
+    @PatchMapping("/denegar_soli/{idReserva}")
+    public ResponseEntity<?> denegarrSoli(@PathVariable int idReserva){
+
+        reservaService.actualizarEstadoReserva(4, idReserva);
+
+        return ResponseEntity.status(HttpStatus.OK).body("Reserva denegada");
+    };
+
 
 }

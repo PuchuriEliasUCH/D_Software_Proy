@@ -17,7 +17,7 @@ public class Mesa {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "num_mesa")
-    public Long id;
+    public int id;
 
     @ManyToOne
     @JoinColumn(name = "id_estado", nullable = false)

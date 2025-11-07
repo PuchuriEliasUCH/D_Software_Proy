@@ -7,6 +7,7 @@ import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -14,6 +15,7 @@ import java.time.LocalTime;
 @Entity
 @Table(name = "reserva")
 @Data
+@ToString(exclude = "reserva")
 @AllArgsConstructor
 @NoArgsConstructor
 public class Reserva {
@@ -21,7 +23,7 @@ public class Reserva {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_reserva")
-    private Long id;
+    private int id;
 
     @ManyToOne()
     @JoinColumn(name = "id_estado")

@@ -19,7 +19,7 @@ public class AsignacionMesa {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_asignacion")
-    private Long idAsignacion;
+    private int idAsignacion;
 
     @ManyToOne
     @JoinColumn(name = "id_operario", nullable = false)

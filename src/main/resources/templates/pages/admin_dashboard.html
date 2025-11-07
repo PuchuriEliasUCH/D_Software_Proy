@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="es">
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
@@ -13,15 +13,23 @@
 </head>
 <body>
 <!-- Header con el mismo estilo que el index -->
-<header th:insert="~{/fragments/navbar :: navbar}"></header>
+<header th:insert="~{/fragments/general/navbar :: navbar}"></header>
 
 <main class="container-main">
     <div class="card">
         <h4>Panel Administrativo</h4>
         <div style="display:flex;gap:12px;align-items:center;margin-top:12px">
             <label class="small-muted" for="adminDate" style="min-width:110px">Selecciona fecha:</label>
-            <input id="adminDate" type="date" class="form-control" style="max-width:200px"/>
-            <button class="btn btn-dark" style="margin-left:8px" type="button" onclick="renderAdmin()">Ver</button>
+            <input id="adminDate" type="date" name="fecha" class="form-control" style="max-width:200px"/>
+            <button
+                    class="btn btn-dark"
+                    style="margin-left:8px"
+                    type="button"
+                    onclick="listarCards()"
+            >
+                Ver
+            </button>
+
 
             <div style="margin-left:auto; display:flex; gap:8px;">
                 <button id="mesasBtn" class="btn btn-primary" type="button">Ir a Mesas</button>
@@ -63,7 +71,12 @@
         <div style="margin-top:18px">
             <h5>Solicitudes de reserva (pendientes de pago)</h5>
             <div class="small-muted">Se cancelan automáticamente si no se paga en 15 min. (countdown en vivo)</div>
-            <div id="pendientesAccept" style="margin-top:12px" aria-live="polite"></div>
+
+            <div
+                    id="pendientesAccept"
+                    style="margin-top:12px"
+                    aria-live="polite"
+                    th:insert="~{/fragments/dashboard/fragment_solicitudes :: fragmentSoli}"></div>
         </div>
 
         <!-- Operativa: mesas por asignar / reasignar -->

@@ -1,0 +1,15 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<div th:fragment="fragmentSoli">
+
+
+    <div th:if="${#lists.isEmpty(cards)}" class="alert alert-info">
+        No hay solicitudes pendientes para esta fecha
+    </div>
+
+    <!-- Lista de cards -->
+    <div th:each="card : ${cards}">
+        <div th:insert="~{/fragments/dashboard/card_solicitudes :: cardSoli(cardSoliDto=${card})}"></div>
+    </div>
+
+
+</div>

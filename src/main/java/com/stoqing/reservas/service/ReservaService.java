@@ -1,5 +1,6 @@
 package com.stoqing.reservas.service;
 
+import com.stoqing.reservas.entities.dto.CardSoliDTO;
 import com.stoqing.reservas.entities.model.Reserva;
 import com.stoqing.reservas.repository.EstadoRepository;
 import com.stoqing.reservas.repository.ReservaRepository;
@@ -19,11 +20,21 @@ public class ReservaService {
         return reservaRepo.findAll();
     }
 
-    public List<Reserva> findByFecha(LocalDate fecha){
-        return reservaRepo.findByFechaReserva(fecha);
+    public List<Reserva> findByEstado_Id(Integer id){
+        return reservaRepo.findByEstado_Id(id);
     }
 
     public void save(Reserva reserva){
         reservaRepo.save(reserva);
     }
+
+    public List<CardSoliDTO> listarCardSolicitud(LocalDate fecha){
+        return reservaRepo.listarCardSolicitud(fecha);
+    }
+
+    public void actualizarEstadoReserva(Integer idEstado, Integer idReserva){
+        reservaRepo.actualizarEstadoReserva(idEstado, idReserva);
+    }
+
+
 }

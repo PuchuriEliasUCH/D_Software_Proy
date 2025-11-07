@@ -17,7 +17,7 @@ public class Operario {
     @Id
 	@GeneratedValue(strategy= GenerationType.IDENTITY)
     @Column(name = "id_operario")
-	private Long id;
+	private int id;
 
     @NotBlank
     @Column(nullable = false, length = 100)
