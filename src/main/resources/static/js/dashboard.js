@@ -13,8 +13,15 @@ const listarCards = () => {
 }
 
 const confirmarPago = (idReserva) => {
-    fetch(`/api/reserva/aceptar_soli/${idReserva}`, {
+    const metodoPago = document.getElementById("metPago").value;
+
+    fetch(`/api/reserva/aceptar_soli`, {
         method: "PATCH",
+        body: JSON.stringify({
+            "idEstado": 2,
+            idReserva,
+            "metodoPago": metodoPago.toString()
+        }),
         headers: {
             "Content-Type": "application/json"
         }
@@ -33,3 +40,27 @@ const denegarSolicitud = (idReserva) => {
         .then(arr => listarCards())
         .catch(er => alert(er));
 }
+
+
+document.getElementById("modalAceptarSoli").addEventListener('click', () => {
+    const btnAceptarSoli = document.getElementById("btnAceptarSoli");
+    const idTarjeta = btnAceptarSoli.getAttribute('reserva-id');
+    const modalElement = document.getElementById("confirmarSolicitud");
+
+    const modal = bootstrap.Modal.getInstance(modalElement);
+    modal.hide();
+
+    confirmarPago(idTarjeta);
+
+})
+document.getElementById("modalDenegarSoli").addEventListener('click', () => {
+    const btnDenegarSoli = document.getElementById("btnDenegarSoli");
+    const idTarjeta = btnDenegarSoli.getAttribute('reserva-id');
+    const modalElement = document.getElementById("denegarSolicitud");
+
+    const modal = bootstrap.Modal.getInstance(modalElement);
+    modal.hide();
+
+    denegarSolicitud(idTarjeta);
+
+})

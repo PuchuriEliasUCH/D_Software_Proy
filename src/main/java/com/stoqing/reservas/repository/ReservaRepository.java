@@ -1,5 +1,6 @@
 package com.stoqing.reservas.repository;
 
+import com.stoqing.reservas.entities.dto.AceptarSolicitudDTO;
 import com.stoqing.reservas.entities.dto.CardSoliDTO;
 import com.stoqing.reservas.entities.model.Reserva;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -33,4 +34,9 @@ public interface ReservaRepository extends JpaRepository<Reserva, Long> {
     @Modifying
     @Query("update Reserva r set r.estado.id = :idEstado where r.id = :idReserva")
     void actualizarEstadoReserva(@Param("idEstado") Integer idEstado, @Param("idReserva") Integer id);
+
+    @Transactional
+    @Modifying
+    @Query("update Reserva r set r.estado.id = :#{#as.idEstado}, r.metodoPago = :#{#as.metodoPago} where r.id = :#{#as.idReserva}")
+    void aceptarSolicitudReserva(@Param("as") AceptarSolicitudDTO acepSoliDTO);
 }

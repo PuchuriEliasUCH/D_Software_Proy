@@ -1,5 +1,6 @@
 package com.stoqing.reservas.service;
 
+import com.stoqing.reservas.entities.dto.AceptarSolicitudDTO;
 import com.stoqing.reservas.entities.dto.CardSoliDTO;
 import com.stoqing.reservas.entities.model.Reserva;
 import com.stoqing.reservas.repository.EstadoRepository;
@@ -37,5 +38,7 @@ public class ReservaService {
         reservaRepo.actualizarEstadoReserva(idEstado, idReserva);
     }
 
-
+    public void aceptarSolicitudReserva(AceptarSolicitudDTO acepSoliDTO){
+        reservaRepo.aceptarSolicitudReserva(acepSoliDTO);
+    }
 }

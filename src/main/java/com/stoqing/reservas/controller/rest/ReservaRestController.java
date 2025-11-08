@@ -1,5 +1,6 @@
 package com.stoqing.reservas.controller.rest;
 
+import com.stoqing.reservas.entities.dto.AceptarSolicitudDTO;
 import com.stoqing.reservas.entities.model.Reserva;
 import com.stoqing.reservas.service.ReservaService;
 import lombok.AllArgsConstructor;
@@ -42,10 +43,10 @@ public class ReservaRestController {
     }
 
     @Transactional
-    @PatchMapping("/aceptar_soli/{idReserva}")
-    public ResponseEntity<?> aceptarSoli(@PathVariable int idReserva){
+    @PatchMapping("/aceptar_soli")
+    public ResponseEntity<?> aceptarSoli(@RequestBody AceptarSolicitudDTO acepSoliDto){
 
-        reservaService.actualizarEstadoReserva(2, idReserva);
+        reservaService.aceptarSolicitudReserva(acepSoliDto);
 
         return ResponseEntity.status(HttpStatus.OK).body("Reserva aceptada exitosamente");
     }
