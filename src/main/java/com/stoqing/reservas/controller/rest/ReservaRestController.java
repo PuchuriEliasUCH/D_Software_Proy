@@ -54,7 +54,7 @@ public class ReservaRestController {
     @PatchMapping("/denegar_soli/{idReserva}")
     public ResponseEntity<?> denegarrSoli(@PathVariable int idReserva){
 
-        reservaService.actualizarEstadoReserva(5, idReserva);
+        reservaService.actualizarEstadoReserva(4, idReserva);
 
         return ResponseEntity.status(HttpStatus.OK).body("Reserva denegada");
     }
