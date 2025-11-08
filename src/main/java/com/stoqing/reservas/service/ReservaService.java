@@ -28,6 +28,7 @@ public class ReservaService {
         reservaRepo.save(reserva);
     }
 
+    // Listar tarjetas DTO del dashboard
     public List<CardSoliDTO> listarCardSolicitud(LocalDate fecha){
         return reservaRepo.listarCardSolicitud(fecha);
     }

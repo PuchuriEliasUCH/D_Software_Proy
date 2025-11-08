@@ -5,6 +5,7 @@ import com.stoqing.reservas.service.ReservaService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
@@ -17,16 +18,18 @@ public class ReservaRestController {
 
     private ReservaService reservaService;
 
+    @Transactional(readOnly = true)
     @GetMapping("/listar_todo")
     public ResponseEntity<?> listarTodo(){
-        return ResponseEntity.status(HttpStatus.OK).body(reservaService.findByEstado_Id(1));
+        return ResponseEntity.status(HttpStatus.OK).body(reservaService.findAll());
     }
 
     @GetMapping("/listar")
     public ResponseEntity<?> listar(){
-        return ResponseEntity.status(HttpStatus.OK).body(reservaService.findAll());
+        return ResponseEntity.status(HttpStatus.OK).body(reservaService.findByEstado_Id(1));
     }
 
+    @Transactional
     @PostMapping("/crear")
     public ResponseEntity<?> crear(@RequestBody Reserva reserva){
         reservaService.save(reserva);
@@ -38,6 +41,7 @@ public class ReservaRestController {
         return ResponseEntity.status(HttpStatus.OK).body(reservaService.listarCardSolicitud(fecha));
     }
 
+    @Transactional
     @PatchMapping("/aceptar_soli/{idReserva}")
     public ResponseEntity<?> aceptarSoli(@PathVariable int idReserva){
 
@@ -46,13 +50,14 @@ public class ReservaRestController {
         return ResponseEntity.status(HttpStatus.OK).body("Reserva aceptada exitosamente");
     }
 
+    @Transactional
     @PatchMapping("/denegar_soli/{idReserva}")
     public ResponseEntity<?> denegarrSoli(@PathVariable int idReserva){
 
-        reservaService.actualizarEstadoReserva(4, idReserva);
+        reservaService.actualizarEstadoReserva(5, idReserva);
 
         return ResponseEntity.status(HttpStatus.OK).body("Reserva denegada");
-    };
+    }
 
 
 }

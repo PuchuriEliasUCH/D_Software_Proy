@@ -4,6 +4,7 @@ import com.stoqing.reservas.service.ReservaService;
 import lombok.AllArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,12 +19,14 @@ public class DashboardController {
 
     private ReservaService reservaService;
 
+    @Transactional(readOnly = true)
     @GetMapping({"/", ""})
     public String dashboard(Model model){
         model.addAttribute("cards", reservaService.listarCardSolicitud(LocalDate.now()));
         return "pages/admin_dashboard";
     }
 
+    @Transactional(readOnly = true)
     @GetMapping("/listar_fecha")
     public String listarFecha(
         @RequestParam(required = false)

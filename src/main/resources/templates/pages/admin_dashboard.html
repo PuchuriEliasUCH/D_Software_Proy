@@ -20,19 +20,11 @@
         <h4>Panel Administrativo</h4>
         <div style="display:flex;gap:12px;align-items:center;margin-top:12px">
             <label class="small-muted" for="adminDate" style="min-width:110px">Selecciona fecha:</label>
-            <input id="adminDate" type="date" name="fecha" class="form-control" style="max-width:200px"/>
-            <button
-                    class="btn btn-dark"
-                    style="margin-left:8px"
-                    type="button"
-                    onclick="listarCards()"
-            >
-                Ver
-            </button>
+            <input id="adminDate" type="date" name="fecha" class="form-control" onchange="listarCards()" style="max-width:200px"/>
 
 
             <div style="margin-left:auto; display:flex; gap:8px;">
-                <button id="mesasBtn" class="btn btn-primary" type="button">Ir a Mesas</button>
+                <a th:href="@{/gestion_mesas}" id="mesasBtn" class="btn btn-primary" type="button">Ir a Mesas</a>
                 <form th:action="@{/logout}" method="post">
                     <button id="logoutBtn" class="btn btn-outline-danger" type="submit">Cerrar sesión</button>
                 </form>

@@ -5,6 +5,7 @@ import com.stoqing.reservas.service.OperarioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -19,6 +20,7 @@ public class OperarioRestController {
         return ResponseEntity.status(HttpStatus.OK).body(operarioService.findAll());
     }
 
+    @Transactional
     @PostMapping("/crear")
     public ResponseEntity<?> crear(@RequestBody Operario operario) {
 
