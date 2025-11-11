@@ -33,6 +33,22 @@
 
         <div style="margin-bottom:18px">
             <h5>Mapa de mesas</h5>
+            <!-- 🔹 Filtro por estado -->
+            <div style="display:flex;gap:8px;align-items:center;margin:8px 0;font-size:0.9rem;">
+                <label class="small-muted" for="mesaEstadoFilter">Filtrar mesas por estado:</label>
+                <select id="mesaEstadoFilter"
+                        class="form-control"
+                        style="max-width:220px"
+                        onchange="aplicarFiltroMesas()"> <!-- 👈 importante -->
+                    <option value="todas">Todas</option>
+                    <option value="libre">Libre</option>
+                    <option value="solicitada">Solicitada</option>
+                    <option value="reservada">Reservada</option>
+                    <option value="ocupada">Ocupada</option>
+                    <option value="mantenimiento">Mantenimiento</option>
+                </select>
+            </div>
+
             <div class="legend" style="display:flex;gap:12px;margin:8px 0;font-size:0.9rem;">
                 <div><span class="legend-box estado-libre"></span> Libre</div>
                 <div><span class="legend-box estado-solicitada"></span> Solicitada</div>
