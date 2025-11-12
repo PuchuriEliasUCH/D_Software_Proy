@@ -11,6 +11,7 @@ import java.time.LocalTime;
 @Data
 public class CardSoliDTO {
     private int id;
+    private String codigo;
     private String nombreCliente;
     private LocalTime horaReserva;
     private int numeroPersonas;

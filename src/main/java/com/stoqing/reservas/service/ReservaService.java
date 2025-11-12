@@ -9,6 +9,8 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.List;
 
 @Service
@@ -26,6 +28,8 @@ public class ReservaService {
     }
 
     public void save(Reserva reserva){
+        LocalDateTime actual = LocalDateTime.now(ZoneId.of("America/Lima"));
+        reserva.setExpira(actual.plusMinutes(15L));
         reservaRepo.save(reserva);
     }
 
@@ -35,10 +39,18 @@ public class ReservaService {
     }
 
     public void actualizarEstadoReserva(Integer idEstado, Integer idReserva){
+        Reserva reserva = reservaRepo.findById(idReserva)
+            .orElseThrow(() -> new RuntimeException("Reserva no encontrada"));
+
+        reserva.setExpira(null);
         reservaRepo.actualizarEstadoReserva(idEstado, idReserva);
     }
 
     public void aceptarSolicitudReserva(AceptarSolicitudDTO acepSoliDTO){
+        Reserva reserva = reservaRepo.findById(acepSoliDTO.getIdReserva())
+            .orElseThrow(() -> new RuntimeException("Reserva no encontrada"));
+
+        reserva.setExpira(null);
         reservaRepo.aceptarSolicitudReserva(acepSoliDTO);
     }
 }

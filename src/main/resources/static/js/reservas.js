@@ -472,6 +472,7 @@ function setupReservasPage() {
                 telCliente,
                 emailContacto,
                 numeroPersonas,
+                codigo,
                 fechaReserva: selectedDate,
                 horaReserva: selectedSlot,
                 montoGarantia: monto.toFixed(2),
@@ -479,7 +480,6 @@ function setupReservasPage() {
             };
 
             const paraLocal = {...nueva,
-                codigo,
                 garantia: monto.toFixed(2),
                 mesaAsignada
             }

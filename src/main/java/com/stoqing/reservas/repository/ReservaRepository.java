@@ -10,23 +10,24 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.List;
 
-public interface ReservaRepository extends JpaRepository<Reserva, Long> {
-
-    List<Reserva> findByFechaReservaAndEstado_Id(LocalDate date, Integer id);
+public interface ReservaRepository extends JpaRepository<Reserva, Integer> {
 
     List<Reserva> findByEstado_Id(Integer id);
 
+    List<Reserva> findByEstado_IdAndExpiraBefore(Integer id, LocalDateTime actual);
+
     @Query("select new com.stoqing.reservas.entities.dto.CardSoliDTO(" +
         "r.id, " +
+        "r.codigo, " +
         "r.nombreCliente, " +
         "r.horaReserva, " +
         "r.numeroPersonas, " +
         "r.montoGarantia, " +
         "r.comentarios" +
-        ") from Reserva r where r.estado.id = 1 and r.fechaReserva = ?1")
+        ") from Reserva r where r.estado.id = com.stoqing.reservas.utils.EstadosReserva.PAGO_PENDIENTE and r.fechaReserva = ?1")
     List<CardSoliDTO> listarCardSolicitud(LocalDate date);
 
 

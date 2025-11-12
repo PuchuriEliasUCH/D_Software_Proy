@@ -3,6 +3,7 @@ package com.stoqing.reservas.controller.rest;
 import com.stoqing.reservas.entities.dto.AceptarSolicitudDTO;
 import com.stoqing.reservas.entities.model.Reserva;
 import com.stoqing.reservas.service.ReservaService;
+import com.stoqing.reservas.utils.EstadosReserva;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -26,8 +27,8 @@ public class ReservaRestController {
     }
 
     @GetMapping("/listar")
-    public ResponseEntity<?> listar(){
-        return ResponseEntity.status(HttpStatus.OK).body(reservaService.findByEstado_Id(1));
+    public ResponseEntity<?> listarPendientes(){
+        return ResponseEntity.status(HttpStatus.OK).body(reservaService.findByEstado_Id(EstadosReserva.PAGO_PENDIENTE));
     }
 
     @Transactional
@@ -55,7 +56,7 @@ public class ReservaRestController {
     @PatchMapping("/denegar_soli/{idReserva}")
     public ResponseEntity<?> denegarrSoli(@PathVariable int idReserva){
 
-        reservaService.actualizarEstadoReserva(4, idReserva);
+        reservaService.actualizarEstadoReserva(EstadosReserva.CANCELADO_INCONVENIENTES, idReserva);
 
         return ResponseEntity.status(HttpStatus.OK).body("Reserva denegada");
     }
