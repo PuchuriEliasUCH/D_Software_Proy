@@ -31,33 +31,7 @@
             </div>
         </div>
 
-        <!-- KPIs del documento -->
-        <div style="margin-top:18px" class="kpis">
-            <div class="kpi">
-                <div class="small-muted">Reservas canceladas</div>
-                <div class="value" id="kpiCanceladas">0</div>
-            </div>
-            <div class="kpi">
-                <div class="small-muted">Reservas programadas</div>
-                <div class="value" id="kpiProgramadas">0</div>
-            </div>
-            <div class="kpi">
-                <div class="small-muted">Reservas en curso</div>
-                <div class="value" id="kpiEnCurso">0</div>
-            </div>
-            <div class="kpi">
-                <div class="small-muted">Reservas finalizadas</div>
-                <div class="value" id="kpiFinalizadas">0</div>
-            </div>
-        </div>
-
-        <!-- KPI operativo extra -->
-        <div class="kpis" style="margin-top:12px">
-            <div class="kpi" style="background:#fff9e6;border:1px solid #ffe08a">
-                <div class="small-muted">Mesas por asignar / reasignar</div>
-                <div class="value" id="kpiMesasPorAsignar">0</div>
-            </div>
-        </div>
+        <div id="contadores_dashboard" th:insert="~{/fragments/dashboard/contador_panel :: contador}"></div>
 
         <!-- Operativa: pendientes de pago -->
         <div style="margin-top:18px">
@@ -71,11 +45,6 @@
                     th:insert="~{/fragments/dashboard/fragment_solicitudes :: fragmentSoli}"></div>
         </div>
 
-        <!-- Operativa: mesas por asignar / reasignar -->
-        <div style="margin-top:18px">
-            <h5>Mesas por asignar / reasignar (por mantenimiento o mesa no definida)</h5>
-            <div id="porAsignarList" style="margin-top:12px" aria-live="polite"></div>
-        </div>
     </div>
 </main>
 

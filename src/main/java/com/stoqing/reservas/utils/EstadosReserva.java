@@ -11,5 +11,5 @@ public class EstadosReserva {
     public static final Integer CANCELADO_INCONVENIENTES = 5;
     public static final Integer EN_CURSO = 6;
     public static final Integer FINALIZADA = 7;
-    public static final Integer NO_SHOW = 8;
+    public static final Integer CANCELADO_NO_SHOW = 8;
 }

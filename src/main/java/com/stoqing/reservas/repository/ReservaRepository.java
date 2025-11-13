@@ -2,6 +2,7 @@ package com.stoqing.reservas.repository;
 
 import com.stoqing.reservas.entities.dto.AceptarSolicitudDTO;
 import com.stoqing.reservas.entities.dto.CardSoliDTO;
+import com.stoqing.reservas.entities.dto.PanelAdminDashDTO;
 import com.stoqing.reservas.entities.model.Reserva;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -27,7 +28,7 @@ public interface ReservaRepository extends JpaRepository<Reserva, Integer> {
         "r.numeroPersonas, " +
         "r.montoGarantia, " +
         "r.comentarios" +
-        ") from Reserva r where r.estado.id = com.stoqing.reservas.utils.EstadosReserva.PAGO_PENDIENTE and r.fechaReserva = ?1")
+        ") from Reserva r where r.estado.id = 1 and r.fechaReserva = ?1")
     List<CardSoliDTO> listarCardSolicitud(LocalDate date);
 
 
@@ -40,4 +41,7 @@ public interface ReservaRepository extends JpaRepository<Reserva, Integer> {
     @Modifying
     @Query("update Reserva r set r.estado.id = :#{#as.idEstado}, r.metodoPago = :#{#as.metodoPago} where r.id = :#{#as.idReserva}")
     void aceptarSolicitudReserva(@Param("as") AceptarSolicitudDTO acepSoliDTO);
+
+    @Query("select r.estado.id from Reserva as r where r.fechaReserva = ?1")
+    List<Integer> ids_estado(LocalDate fechaReserva);
 }

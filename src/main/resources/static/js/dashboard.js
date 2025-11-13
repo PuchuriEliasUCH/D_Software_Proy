@@ -2,14 +2,23 @@ const URL_BASE = "http://localhost:8080"
 
 const listarCards = () => {
     const fecha = document.getElementById("adminDate").value;
-    const contenedor = document.getElementById('pendientesAccept');
+    const tarjetasSoli = document.getElementById('pendientesAccept');
+    const contadorDashboard = document.getElementById('contadores_dashboard');
 
-    fetch(`${URL_BASE}/dashboard/listar_fecha?fecha=${fecha.toString()}`)
-        .then(response => {
-            if (!response.ok) throw new Error('Error en el servidor');
-            return response.text();
+
+    Promise.all([
+        fetch(`${URL_BASE}/dashboard/listar_solis_fecha?fecha=${fecha.toString()}`),
+        fetch(`${URL_BASE}/dashboard/listar_contadores_fecha?fecha=${fecha.toString()}`)
+    ])
+        .then(([resSoli, resConta]) => {
+            if (!resSoli.ok || !resConta.ok) throw new Error('Error en el servidor');
+            return Promise.all([resSoli.text(), resConta.text()]);
         })
-        .then(html => contenedor.innerHTML = html)
+        .then(([solicitudes, contadores]) => {
+            tarjetasSoli.innerHTML = solicitudes;
+            contadorDashboard.innerHTML = contadores;
+        })
+        .catch(r => console.error(r))
 }
 
 const confirmarPago = (idReserva) => {
