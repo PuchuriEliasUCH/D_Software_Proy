@@ -22,13 +22,15 @@ public class DashboardController {
     @Transactional(readOnly = true)
     @GetMapping({"/", ""})
     public String dashboard(Model model){
-        model.addAttribute("cards", reservaService.listarCardSolicitud(LocalDate.now()));
+        LocalDate ahora = LocalDate.now();
+        model.addAttribute("cards", reservaService.listarCardSolicitud(ahora));
+        model.addAttribute("contadores", reservaService.listarContadoresDashboard(ahora));
         return "pages/admin_dashboard";
     }
 
     @Transactional(readOnly = true)
-    @GetMapping("/listar_fecha")
-    public String listarFecha(
+    @GetMapping("/listar_solis_fecha")
+    public String listarSolisFecha(
         @RequestParam(required = false)
         @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
         LocalDate fecha,
@@ -39,6 +41,21 @@ public class DashboardController {
         model.addAttribute("cards", reservaService.listarCardSolicitud(fechaBusqueda));
 
         return "fragments/dashboard/fragment_solicitudes :: fragmentSoli";
+    }
+
+    @Transactional(readOnly = true)
+    @GetMapping("/listar_contadores_fecha")
+    public String listarContadoresDashboard(
+        @RequestParam(required = false)
+        @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
+        LocalDate fecha,
+        Model model
+    ){
+        LocalDate fechaBusqueda= (fecha != null) ? fecha : LocalDate.now();
+
+        model.addAttribute("contadores", reservaService.listarContadoresDashboard(fechaBusqueda));
+
+        return "fragments/dashboard/contador_panel :: contador";
     }
 
 

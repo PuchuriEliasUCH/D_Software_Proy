@@ -10,6 +10,7 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 
 @Entity
@@ -28,6 +29,10 @@ public class Reserva {
     @ManyToOne()
     @JoinColumn(name = "id_estado")
     private Estado estado;
+
+    @NotBlank
+    @Column(nullable = false)
+    private String codigo;
 
     @NotNull
     @Column(name = "fecha_reserva", nullable = false)
@@ -72,6 +77,8 @@ public class Reserva {
 
     @Column(name = "comentarios", columnDefinition = "TEXT")
     private String comentarios;
+    
+    private LocalDateTime expira;
 
     @Embedded
     private Audit audit = new Audit();
