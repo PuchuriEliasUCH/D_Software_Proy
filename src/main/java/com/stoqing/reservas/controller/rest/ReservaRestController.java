@@ -1,9 +1,12 @@
 package com.stoqing.reservas.controller.rest;
 
 import com.stoqing.reservas.entities.dto.AceptarSolicitudDTO;
+import com.stoqing.reservas.entities.dto.EmailDTO;
 import com.stoqing.reservas.entities.model.Reserva;
+import com.stoqing.reservas.service.MailService;
 import com.stoqing.reservas.service.ReservaService;
 import com.stoqing.reservas.utils.EstadosReserva;
+import jakarta.mail.MessagingException;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,6 +22,7 @@ import java.time.LocalDate;
 public class ReservaRestController {
 
     private ReservaService reservaService;
+    private MailService mailService;
 
     @Transactional(readOnly = true)
     @GetMapping("/listar_todo")
@@ -45,10 +49,9 @@ public class ReservaRestController {
 
     @Transactional
     @PatchMapping("/aceptar_soli")
-    public ResponseEntity<?> aceptarSoli(@RequestBody AceptarSolicitudDTO acepSoliDto){
+    public ResponseEntity<?> aceptarSoli(@RequestBody AceptarSolicitudDTO acepSoliDto) throws MessagingException {
 
         reservaService.aceptarSolicitudReserva(acepSoliDto);
-
         return ResponseEntity.status(HttpStatus.OK).body("Reserva aceptada exitosamente");
     }
 

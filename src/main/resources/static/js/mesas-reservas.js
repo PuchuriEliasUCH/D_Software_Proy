@@ -35,6 +35,7 @@ function setupBotonesHeader() {
     }
 }
 
+/* ===== Cargar mesas desde backend ===== */
 function cargarMesas() {
     fetch('/api/mesa/listar')
         .then(r => {
@@ -42,8 +43,9 @@ function cargarMesas() {
             return r.json();
         })
         .then(data => {
+            console.log('Mesas desde API:', data); // para verificar
             mesasGlob = data;
-            renderMesasMap(data);
+            aplicarFiltroMesas();   // 👈 pinta respetando el filtro actual (o todas)
         })
         .catch(err => {
             console.error(err);
@@ -54,6 +56,39 @@ function cargarMesas() {
         });
 }
 
+/* ===== Filtro de mesas por estado ===== */
+function aplicarFiltroMesas() {
+    const sel = document.getElementById('mesaEstadoFilter');
+    if (!sel) {
+        renderMesasMap(mesasGlob);
+        return;
+    }
+
+    const value = sel.value; // 'todas' | 'libre' | 'solicitada'...
+
+    if (value === 'todas') {
+        renderMesasMap(mesasGlob);
+        return;
+    }
+
+    // Mapeo value del select -> texto que viene del backend
+    const map = {
+        libre: 'Libre',
+        solicitada: 'Solicitada',
+        reservada: 'Reservada',
+        ocupada: 'Ocupada',
+        mantenimiento: 'Mantenimiento'
+    };
+
+    const estadoBuscado = map[value] || null;
+    const filtradas = estadoBuscado
+        ? mesasGlob.filter(m => m.estado === estadoBuscado)
+        : mesasGlob;
+
+    renderMesasMap(filtradas);
+}
+
+/* ===== Render del mapa de mesas ===== */
 function renderMesasMap(mesas) {
     const mapEl = document.getElementById('mesasMap');
     if (!mapEl) return;
@@ -110,6 +145,7 @@ function capacidadTexto(cap) {
     }
 }
 
+/* ===== Modal de opciones de mesa ===== */
 function onMesaClick(numMesa) {
     const mesa = mesasGlob.find(m => m.numMesa === numMesa);
     if (!mesa) return;
@@ -123,11 +159,10 @@ function onMesaClick(numMesa) {
 
     info.textContent = `Mesa ${mesa.numMesa} — Capacidad ${capacidadTexto(mesa.capacidad)}`;
 
-    // Solo manejamos manualmente estos 3
-    if (mesa.estado === 'Libre')      select.value = 'libre';
-    else if (mesa.estado === 'Ocupada')      select.value = 'ocupada';
-    else if (mesa.estado === 'Mantenimiento') select.value = 'mantenimiento';
-    else select.value = 'libre';
+    if (mesa.estado === 'Libre')               select.value = 'libre';
+    else if (mesa.estado === 'Ocupada')        select.value = 'ocupada';
+    else if (mesa.estado === 'Mantenimiento')  select.value = 'mantenimiento';
+    else                                       select.value = 'libre';
 
     maintWrap.style.display = select.value === 'mantenimiento' ? 'block' : 'none';
 
@@ -159,10 +194,12 @@ function onMesaClick(numMesa) {
                 return r.json();
             })
             .then(updated => {
-                // Actualizamos cache y re-render
                 const idx = mesasGlob.findIndex(m => m.numMesa === updated.numMesa);
                 if (idx !== -1) mesasGlob[idx] = updated;
-                renderMesasMap(mesasGlob);
+
+                // Reaplicar filtro actual
+                aplicarFiltroMesas();
+
                 modal.style.display = 'none';
             })
             .catch(err => {
