@@ -21,15 +21,20 @@ public interface ReservaRepository extends JpaRepository<Reserva, Integer> {
     List<Reserva> findByEstado_IdAndExpiraBefore(Integer id, LocalDateTime actual);
 
     @Query("select new com.stoqing.reservas.entities.dto.CardSoliDTO(" +
-        "r.id, " +
-        "r.codigo, " +
-        "r.nombreCliente, " +
-        "r.horaReserva, " +
-        "r.numeroPersonas, " +
-        "r.montoGarantia, " +
-        "r.comentarios" +
-        ") from Reserva r where r.estado.id = 1 and r.fechaReserva = ?1")
-    List<CardSoliDTO> listarCardSolicitud(LocalDate date);
+            "r.id, " +
+            "r.codigo, " +
+            "r.nombreCliente, " +
+            "r.horaReserva, " +
+            "r.numeroPersonas, " +
+            "r.montoGarantia, " +
+            "r.comentarios" +
+            ") " +
+            "from Reserva r " +
+            "where r.estado.id = 6 " + // 6 = Pago pendiente
+            "and (:fecha is null or r.fechaReserva = :fecha) " +
+            "order by r.fechaReserva, r.horaReserva")
+    List<CardSoliDTO> listarCardSolicitud(@Param("fecha") LocalDate fecha);
+
 
 
     @Transactional

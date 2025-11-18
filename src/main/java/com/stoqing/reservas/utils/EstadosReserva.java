@@ -4,12 +4,12 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class EstadosReserva {
-    public static final Integer PAGO_PENDIENTE = 1;
-    public static final Integer RESERVA_PROGRAMADA = 2;
-    public static final Integer CANCELADO_EXPIRADO = 3;
-    public static final Integer CANCELADO_CLIENTE = 4;
-    public static final Integer CANCELADO_INCONVENIENTES = 5;
-    public static final Integer EN_CURSO = 6;
-    public static final Integer FINALIZADA = 7;
-    public static final Integer CANCELADO_NO_SHOW = 8;
+    public static final Integer PAGO_PENDIENTE = 6;
+    public static final Integer RESERVA_PROGRAMADA = 7;
+    public static final Integer CANCELADO_EXPIRADO = 8;
+    public static final Integer CANCELADO_CLIENTE = 9;
+    public static final Integer CANCELADO_INCONVENIENTES = 10;
+    public static final Integer EN_CURSO = 11;
+    public static final Integer FINALIZADA = 12;
+    public static final Integer CANCELADO_NO_SHOW = 13;
 }

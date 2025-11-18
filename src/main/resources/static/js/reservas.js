@@ -465,7 +465,7 @@ function setupReservasPage() {
             const monto = numeroPersonas * PRICE_PER_PERSON;
             const codigo = 'R' + Math.random().toString(36).substring(2, 8).toUpperCase();
             const nueva = {
-                "estado": { "id": 1 },
+                "estado": { "id": 6 }, // 6 = Pago pendiente (Reserva)
                 nombreCliente,
                 apellidoCliente,
                 dniCliente,

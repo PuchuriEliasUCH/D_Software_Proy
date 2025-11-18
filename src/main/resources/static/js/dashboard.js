@@ -27,7 +27,7 @@ const confirmarPago = (idReserva) => {
     fetch(`/api/reserva/aceptar_soli`, {
         method: "PATCH",
         body: JSON.stringify({
-            "idEstado": 2,
+            "idEstado": 7,
             idReserva,
             "metodoPago": metodoPago.toString()
         }),
@@ -43,7 +43,7 @@ const denegarSolicitud = (idReserva) => {
     fetch(`/api/reserva/denegar_soli/${idReserva}`, {
         method : "PATCH",
         headers: {
-            "Content-Type": "application/json"
+            "Cont ent-Type": "application/json"
         }
     })
         .then(arr => listarCards())

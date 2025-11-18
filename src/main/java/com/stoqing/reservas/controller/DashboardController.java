@@ -23,7 +23,9 @@ public class DashboardController {
     @GetMapping({"/", ""})
     public String dashboard(Model model){
         LocalDate ahora = LocalDate.now();
-        model.addAttribute("cards", reservaService.listarCardSolicitud(ahora));
+        // TODAS las solicitudes pendientes (sin filtrar por fecha)
+        model.addAttribute("cards", reservaService.listarCardSolicitud(null));
+        // Contadores siguen siendo del día
         model.addAttribute("contadores", reservaService.listarContadoresDashboard(ahora));
         return "pages/admin_dashboard";
     }
@@ -31,14 +33,13 @@ public class DashboardController {
     @Transactional(readOnly = true)
     @GetMapping("/listar_solis_fecha")
     public String listarSolisFecha(
-        @RequestParam(required = false)
-        @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
-        LocalDate fecha,
-        Model model
+            @RequestParam(required = false)
+            @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
+            LocalDate fecha,
+            Model model
     ){
-        LocalDate fechaBusqueda= (fecha != null) ? fecha : LocalDate.now();
-
-        model.addAttribute("cards", reservaService.listarCardSolicitud(fechaBusqueda));
+        // Si fecha = null → el servicio listará TODAS las pendientes
+        model.addAttribute("cards", reservaService.listarCardSolicitud(fecha));
 
         return "fragments/dashboard/fragment_solicitudes :: fragmentSoli";
     }
