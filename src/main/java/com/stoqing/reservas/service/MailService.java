@@ -29,7 +29,7 @@ public class MailService {
         ctx.setVariable("reserva", emailDTO.getReserva());
 
 
-        String contentHtml = templateEngine.process("email/ConfirmacionReserva.html", ctx);
+        String contentHtml = templateEngine.process("emailTemplates/confirmacionReserva.html", ctx);
         helper.setText(contentHtml, true);
 
         mailSender.send(mimeMessage);
