@@ -2,11 +2,13 @@ package com.stoqing.reservas.service;
 
 import com.stoqing.reservas.entities.dto.AceptarSolicitudDTO;
 import com.stoqing.reservas.entities.dto.CardSoliDTO;
+import com.stoqing.reservas.entities.dto.EmailDTO;
 import com.stoqing.reservas.entities.dto.PanelAdminDashDTO;
 import com.stoqing.reservas.entities.model.Reserva;
 import com.stoqing.reservas.repository.EstadoRepository;
 import com.stoqing.reservas.repository.ReservaRepository;
 import com.stoqing.reservas.utils.EstadosReserva;
+import jakarta.mail.MessagingException;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -20,8 +22,10 @@ import java.util.Set;
 @Service
 @AllArgsConstructor
 public class ReservaService {
+    private final MailService mailService;
     private ReservaRepository reservaRepo;
     private EstadoRepository estadoRepo;
+    private WhatsAppService whatsAppService;
 
     public List<Reserva> findAll(){
         return reservaRepo.findAll();
@@ -75,11 +79,20 @@ public class ReservaService {
         reservaRepo.actualizarEstadoReserva(idEstado, idReserva);
     }
 
-    public void aceptarSolicitudReserva(AceptarSolicitudDTO acepSoliDTO){
+    public void aceptarSolicitudReserva(AceptarSolicitudDTO acepSoliDTO) throws MessagingException {
         Reserva reserva = reservaRepo.findById(acepSoliDTO.getIdReserva())
             .orElseThrow(() -> new RuntimeException("Reserva no encontrada"));
 
         reserva.setExpira(null);
         reservaRepo.aceptarSolicitudReserva(acepSoliDTO);
+        mailService.sendMail(new EmailDTO(reserva.getEmailContacto(), "Confirmacion de reserva", "xd", reserva));
+//        whatsAppService.confirmacionMensaje(reserva.getTelCliente(), "Reserva confirmada\n" +
+//            "- Código de reserva: " + reserva.getCodigo() + "\n" +
+//            "- Fecha: " + reserva.getFechaReserva() + "\n" +
+//            "- Hora: " + reserva.getHoraReserva() + "\n" +
+//            "- Número de personas: " + reserva.getNumeroPersonas() + "\n" +
+//            "- Monto de garantía: " + reserva.getMontoGarantia() + "\n" +
+//            "- Método de pago utilizado: " + acepSoliDTO.getMetodoPago().toString().toLowerCase() + "\n" +
+//            "Lo esperamos!");
     }
 }
