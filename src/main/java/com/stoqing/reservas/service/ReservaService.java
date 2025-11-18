@@ -86,13 +86,13 @@ public class ReservaService {
         reserva.setExpira(null);
         reservaRepo.aceptarSolicitudReserva(acepSoliDTO);
         mailService.sendMail(new EmailDTO(reserva.getEmailContacto(), "Confirmacion de reserva", "xd", reserva));
-//        whatsAppService.confirmacionMensaje(reserva.getTelCliente(), "Reserva confirmada\n" +
-//            "- Código de reserva: " + reserva.getCodigo() + "\n" +
-//            "- Fecha: " + reserva.getFechaReserva() + "\n" +
-//            "- Hora: " + reserva.getHoraReserva() + "\n" +
-//            "- Número de personas: " + reserva.getNumeroPersonas() + "\n" +
-//            "- Monto de garantía: " + reserva.getMontoGarantia() + "\n" +
-//            "- Método de pago utilizado: " + acepSoliDTO.getMetodoPago().toString().toLowerCase() + "\n" +
-//            "Lo esperamos!");
+        whatsAppService.confirmacionMensaje(reserva.getTelCliente(), "Reserva confirmada\n" +
+            "- Código de reserva: " + reserva.getCodigo() + "\n" +
+            "- Fecha: " + reserva.getFechaReserva() + "\n" +
+            "- Hora: " + reserva.getHoraReserva() + "\n" +
+            "- Número de personas: " + reserva.getNumeroPersonas() + "\n" +
+            "- Monto de garantía: " + reserva.getMontoGarantia() + "\n" +
+            "- Método de pago utilizado: " + acepSoliDTO.getMetodoPago().toString().toLowerCase() + "\n" +
+            "Lo esperamos!");
     }
 }
